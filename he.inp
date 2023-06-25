@@ -1,0 +1,59 @@
+;------------------------;
+;--     Helium atom    --;
+;------------------------;
+
+[job]
+mode = 1
+
+[parallel]
+eigen = 1
+
+[orbital_basis]
+; --
+; orbital basis: 12s
+; RHF energy: -2.861 679 995 612 232
+; ref. Cinal: -2.861 679 995 612 238 879
+; --
+n_orbital_legendre = 2
+orbital_momentum = 12 12
+basis_params_s = 3.150039470331992e-01   8.092329506690247e-01
+basis_params_p = 3.150039470331992e-01   8.092329506690247e-01
+
+[system]
+nuclear_charge = 2
+n_electrons = 2
+n_closed = 1
+n_open = 0
+
+[thresh]
+linear_dependent = 1.0e-30
+eri_threshold = 1.0e-28
+
+[scf]
+maxit = 100
+n_diis = 5
+e_conv = 1.0e-15
+d_conv = 1.0e-09
+rohf_coupling_f = 0
+rohf_coupling_a = 0
+rohf_coupling_b = 0
+
+[powell]
+mx_macro = 30
+mx_powell = 50
+mx_search = 50
+mx_gold = 80
+stop_powell = 1.0e-10
+stop_gold   = 1.0e-11
+
+[bethe]
+grid_start_small = 0.001
+grid_step_small = 0.001
+n_points_bethe_small = 30
+n_grid = 25
+
+[cphf]
+conv = 1.0e-15
+maxit = 100
+
+

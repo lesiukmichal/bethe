@@ -1,0 +1,46 @@
+;------------------------;
+;--    Lithium atom    --;
+;------------------------;
+
+[job]
+mode = -1
+
+[parallel]
+eigen = 1
+
+[orbital_basis]
+; --
+; orbital basis: 16s
+; ROHF energy: -7.432 726 930 729 724
+; ref. Saito:  -7.432 726 930 73
+; --
+n_orbital_legendre = 2
+orbital_momentum = 16
+basis_params_s = -7.220652328497642e-01   1.573634487516337e+00
+
+[system]
+nuclear_charge = 3
+n_electrons = 3
+n_closed = 1
+n_open = 1
+
+[thresh]
+linear_dependent = 1.0e-30
+eri_threshold = 1.0e-28
+
+[scf]
+maxit = 1000
+n_diis = 10
+e_conv = 1.0e-15
+d_conv = 1.0e-09
+rohf_coupling_f = 0.5
+rohf_coupling_a = 0
+rohf_coupling_b = 0
+
+[powell]
+mx_macro = 30
+mx_powell = 50
+mx_search = 50
+mx_gold = 80
+stop_powell = 1.0e-15
+stop_gold   = 1.0e-16

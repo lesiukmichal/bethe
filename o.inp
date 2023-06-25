@@ -1,0 +1,47 @@
+;------------------------;
+;--     Oxygen atom    --;
+;------------------------;
+
+[job]
+mode = -1
+
+[parallel]
+eigen = 1
+
+[orbital_basis]
+; --
+; orbital basis: 16s16p
+; ROHF energy: -74.809 398 470 020
+; ref. Saito : -74.809 398 470 0
+; --
+n_orbital_legendre = 2
+orbital_momentum = 16 16
+basis_params_s =  2.435372952573249e-01   1.625331814987257e+00
+basis_params_p = -1.373604221366133e-02   1.590966848012689e+00
+
+[system]
+nuclear_charge = 8
+n_electrons = 8
+n_closed = 2
+n_open = 3
+
+[thresh]
+linear_dependent = 1.0e-30
+eri_threshold = 1.0e-28
+
+[scf]
+maxit = 1000
+n_diis = 5
+e_conv = 1.0e-16
+d_conv = 1.0e-07
+rohf_coupling_f = 0.66666666666666666666666666
+rohf_coupling_a = 0.9375
+rohf_coupling_b = 1.1250
+
+[powell]
+mx_macro = 30
+mx_powell = 50
+mx_search = 50
+mx_gold = 80
+stop_powell = 1.0e-15
+stop_gold   = 1.0e-16

@@ -1,0 +1,47 @@
+;------------------------;
+;--    Carbon atom     --;
+;------------------------;
+
+[job]
+mode = -1
+
+[parallel]
+eigen = 1
+
+[orbital_basis]
+; --
+; orbital basis: 16s16p
+; ROHF energy: -37.688 618 962 972
+; ref. Saito : -37.688 618 963 0
+; --
+n_orbital_legendre = 2
+orbital_momentum = 16 16
+basis_params_s =  1.497233407777679e-01   1.446333990210519e+00
+basis_params_p = -2.212827925343909e-02   1.430033840967127e+00
+
+[system]
+nuclear_charge = 6
+n_electrons = 6
+n_closed = 2
+n_open = 3
+
+[thresh]
+linear_dependent = 1.0e-30
+eri_threshold = 1.0e-28
+
+[scf]
+maxit = 1000
+n_diis = 5
+e_conv = 1.0e-16
+d_conv = 1.0e-07
+rohf_coupling_f = 0.33333333333333333333
+rohf_coupling_a = 0.75
+rohf_coupling_b = 1.50
+
+[powell]
+mx_macro = 30
+mx_powell = 50
+mx_search = 50
+mx_gold = 80
+stop_powell = 1.0e-15
+stop_gold   = 1.0e-16

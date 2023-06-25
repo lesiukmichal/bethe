@@ -1,0 +1,49 @@
+;------------------------;
+;--    Sodium atom     --;
+;------------------------;
+
+[job]
+mode = -1
+
+[parallel]
+eigen = 1
+
+[orbital_basis]
+; --
+; orbital basis: 16s 16p
+; ROHF energy: -161.858 911 616 526
+; ref. Saito:  -161.858 911 617
+; --
+n_orbital_legendre = 2
+orbital_momentum = 16 16 16
+basis_params_s =  -5.610309738227578e-01   2.026847009391894e+00
+basis_params_p =  -3.048774096402242e-01   1.940862367698660e+00
+basis_params_d =  -3.048774096402242e-01   1.940862367698660e+00
+
+[system]
+nuclear_charge = 11
+n_electrons = 11
+n_closed = 5
+n_open = 1
+
+[thresh]
+linear_dependent = 1.0e-30
+eri_threshold = 1.0e-28
+
+[scf]
+maxit = 1000
+n_diis = 5
+n_diis_turn_on = 10
+e_conv = 1.0e-15
+d_conv = 1.0e-08
+rohf_coupling_f = 0.5
+rohf_coupling_a = 0
+rohf_coupling_b = 0
+
+[powell]
+mx_macro = 30
+mx_powell = 50
+mx_search = 50
+mx_gold = 80
+stop_powell = 1.0e-15
+stop_gold   = 1.0e-16

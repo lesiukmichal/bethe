@@ -3,7 +3,7 @@
 ;------------------------;
 
 [job]
-mode = -1
+mode = 1
 
 [parallel]
 eigen = 1
@@ -33,7 +33,7 @@ eri_threshold = 1.0e-28
 [scf]
 maxit = 1000
 n_diis = 10
-e_conv = 1.0e-15
+e_conv = 1.0e-24
 d_conv = 1.0e-09
 rohf_coupling_f = 0
 rohf_coupling_a = 0
@@ -44,5 +44,17 @@ mx_macro = 30
 mx_powell = 50
 mx_search = 50
 mx_gold = 80
-stop_powell = 1.0e-15
-stop_gold   = 1.0e-16
+stop_powell = 1.0e-20
+stop_gold   = 1.0e-20
+
+[cphf]
+maxit = 100
+conv = 1.0e-15
+
+[bethe]
+grid_start_small = 0.001
+grid_step_small = 0.001
+n_points_bethe_small = 30
+n_grid = 50
+
+

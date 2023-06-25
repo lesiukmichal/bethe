@@ -3,7 +3,7 @@
 ;------------------------;
 
 [job]
-mode = -1
+mode = 1
 
 [parallel]
 eigen = 1
@@ -16,9 +16,10 @@ openmp = 1
 ; ref. Saito : -24.529 060 728 5
 ; --
 n_orbital_legendre = 2
-orbital_momentum = 16 16
+orbital_momentum = 16 16 16
 basis_params_s = -2.274456010061066e-01   1.574709169993977e+00
 basis_params_p = -6.124088870034043e-01   1.645051552589187e+00
+basis_params_d = -6.124088870034043e-01   1.645051552589187e+00
 
 [system]
 nuclear_charge = 5
@@ -45,5 +46,15 @@ mx_macro = 30
 mx_powell = 50
 mx_search = 50
 mx_gold = 80
-stop_powell = 1.0e-15
-stop_gold   = 1.0e-16
+stop_powell = 1.0e-20
+stop_gold   = 1.0e-20
+
+[cphf]
+maxit = 100
+conv = 1.0e-20
+
+[bethe]
+grid_start_small = 0.001
+grid_step_small = 0.001
+n_points_bethe_small = 30
+n_grid = 50

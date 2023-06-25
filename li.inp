@@ -15,8 +15,9 @@ eigen = 1
 ; ref. Saito:  -7.432 726 930 73
 ; --
 n_orbital_legendre = 2
-orbital_momentum = 16
+orbital_momentum = 16 16
 basis_params_s = -7.220652328497642e-01   1.573634487516337e+00
+basis_params_p = -7.220652328497642e-01   1.573634487516337e+00
 
 [system]
 nuclear_charge = 3
@@ -42,5 +43,15 @@ mx_macro = 30
 mx_powell = 50
 mx_search = 50
 mx_gold = 80
-stop_powell = 1.0e-15
-stop_gold   = 1.0e-16
+stop_powell = 1.0e-20
+stop_gold   = 1.0e-20
+
+[cphf]
+maxit = 100
+conv = 1.0e-20
+
+[bethe]
+grid_start_small = 0.001
+grid_step_small = 0.001
+n_points_bethe_small = 30
+n_grid = 50

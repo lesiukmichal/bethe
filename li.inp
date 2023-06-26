@@ -3,7 +3,7 @@
 ;------------------------;
 
 [job]
-mode = -1
+mode = 1
 
 [parallel]
 eigen = 1
@@ -43,12 +43,12 @@ mx_macro = 30
 mx_powell = 50
 mx_search = 50
 mx_gold = 80
-stop_powell = 1.0e-20
-stop_gold   = 1.0e-20
+stop_powell = 1.0e-18
+stop_gold   = 1.0e-18
 
 [cphf]
 maxit = 100
-conv = 1.0e-20
+conv = 1.0e-18
 
 [bethe]
 grid_start_small = 0.001

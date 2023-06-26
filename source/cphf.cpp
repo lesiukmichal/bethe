@@ -37,7 +37,7 @@ void cphf::TrialMultiplication( const std_mtx & UO_ix, const std_mtx & UC_ai, co
   if( settings::n_open > 0 ) R_ax = DF_ax - UC_ai * FO_ix + FO_ai * UO_ix - FC_ab * UO_ax;
 
   for(int i=0; i<settings::n_closed; i++) for(int x=0; x<settings::n_open; x++)
-    R_ix(i,x) -= ( E(i) + E(settings::n_closed + x) - settings::response_k 
+    R_ix(i,x) -= ( E(i) + E(settings::n_closed + x) - settings::response_k
               * ( settings::rohf_coupling_f - real_(1) ) ) * UO_ix(i,x);
 
   for(int i=0; i<settings::n_closed; i++) for(int a=0; a<settings::n_virtual; a++)

@@ -1,5 +1,5 @@
 ;------------------------;
-;--      Neon atom     --;
+;--   Magnesium atom   --;
 ;------------------------;
 
 [job]
@@ -10,20 +10,20 @@ eigen = 1
 
 [orbital_basis]
 ; --
-; orbital basis: 16s16p
-; RHF energy: -128.547 098 109 381 9
-; ref. Cinal: -128.547 098 109 382 042
+; orbital basis: 16s 16p
+; RHF energy: -199.614 636 423 742
+; ref. Cinal: -199.614 636 424 506 710
 ; --
 n_orbital_legendre = 2
 orbital_momentum = 16 16 16
-basis_params_s =   2.335418015108658e-01   1.724017734711572e+00
-basis_params_p =  -9.292514533308624e-02   1.775233432284845e+00
-basis_params_d =  -9.292514533308624e-02   1.775233432284845e+00
+basis_params_s =  -6.615087904896097e-01   2.100844303247423e+00
+basis_params_p =  -3.502258389044453e-01   1.998073504348708e+00
+basis_params_d =  -3.502258389044453e-01   1.998073504348708e+00
 
 [system]
-nuclear_charge = 10
-n_electrons = 10
-n_closed = 5
+nuclear_charge = 12
+n_electrons = 12
+n_closed = 6
 n_open = 0
 
 [thresh]
@@ -32,9 +32,9 @@ eri_threshold = 1.0e-28
 
 [scf]
 maxit = 1000
-n_diis = 5
-e_conv = 1.0e-16
-d_conv = 1.0e-12
+n_diis = 10
+e_conv = 1.0e-15
+d_conv = 1.0e-09
 rohf_coupling_f = 0
 rohf_coupling_a = 0
 rohf_coupling_b = 0

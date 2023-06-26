@@ -138,14 +138,15 @@ real_ driver::NablaRI( const basisSTO <real_> & basis, const std_mtx & C ) {
   ints::EngineUnified <real_> ( basis, basis, PZ, ints::IntegralType::Velocity );
   PZ_mo = C.transpose() * PZ * C;
 
-  real_ p2;
-  p2  = -PZ_mo.block( 0, settings::n_closed + settings::n_open, settings::n_closed, settings::n_virtual ).cwiseAbs2().sum();
-  p2 -= settings::rohf_coupling_f * PZ_mo.block( settings::n_closed, settings::n_closed + settings::n_open, settings::n_open, settings::n_virtual ).cwiseAbs2().sum();
-  p2 += ( settings::rohf_coupling_f - real_(1) ) * PZ_mo.block( 0, settings::n_closed, settings::n_closed, settings::n_open ).cwiseAbs2().sum();
-  p2 += settings::rohf_coupling_f * ( settings::rohf_coupling_f * settings::rohf_coupling_b - real_(1) )
+  real_ p2, a, b, c, d;
+  a = -real_(3) * ( PZ_mo.leftCols( settings::n_closed ).cwiseAbs2().sum()
+    - settings::rohf_coupling_f * PZ_mo.middleCols( settings::n_closed, settings::n_open ).cwiseAbs2().sum() );
+  b = PZ_mo.topLeftCorner( settings::n_closed, settings::n_closed ).cwiseAbs2().sum();
+  c = real_(2) * settings::rohf_coupling_f * PZ_mo.block( 0, settings::n_closed, settings::n_closed, settings::n_open ).cwiseAbs2().sum();
+  d = settings::rohf_coupling_f * settings::rohf_coupling_f * settings::rohf_coupling_b
       * PZ_mo.block( settings::n_closed, settings::n_closed, settings::n_open, settings::n_open ).cwiseAbs2().sum();
 
-  p2 *= real_(6);
+  p2 = real_(2) * ( a + b + c + d );
   return p2;
 };
 
@@ -373,6 +374,8 @@ void driver::BetheDriver() {
   settings::n_virtual = o_basis.n_fun - settings::n_closed - settings::n_open;
   o_basis.printDetails( "Extended orbital" );
 
+  ints::EngineUnified <real_> ( o_basis, o_basis, S, ints::IntegralType::Overlap );
+
   /*
    *   ---=== Denominator and \nabla^2 expectation value ===---
    */
@@ -458,7 +461,8 @@ void driver::BetheDriver() {
     settings::response_k = k_small[n];
 
     cout << endl << " Response calculations for momentum = " << settings::response_k << endl;
-    settings::extra_cphf_a[0] = sqrt( settings::response_k + settings::response_k );
+    for(int i=0; i<settings::n_extra_shl_opt; i++) settings::extra_cphf_a[i] = 20 * ( i + 1 );
+      ///settings::extra_cphf_a[i] = sqrt( settings::response_k + settings::response_k );
 
     powell::OptimizeCPHF();
     real_ current_f = -cphf::EngineCPHF( true );
@@ -468,6 +472,7 @@ void driver::BetheDriver() {
     f_small.push_back( current_f );
 
     cout << "  Total  : " << setw( settings::print_length + 10 ) << current_f << endl;
+    return ;
   };
 
   cout << endl << " Summary of the calculations:" << endl;
@@ -487,7 +492,8 @@ void driver::BetheDriver() {
     settings::response_k = grid_k[n];
 
     cout << endl << " Response calculations for momentum = " << settings::response_k << endl;
-    settings::extra_cphf_a[0] = sqrt( settings::response_k + settings::response_k );
+    for(int i=0; i<settings::n_extra_shl_opt; i++)
+      settings::extra_cphf_a[i] = sqrt( settings::response_k + settings::response_k );
 
     powell::OptimizeCPHF();
     real_ current_f = -cphf::EngineCPHF( true );

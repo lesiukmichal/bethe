@@ -245,28 +245,6 @@ int main(int argc, char* argv[]) {
     driver::BetheDriver();
   };
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
   auto end = std::chrono::steady_clock::now();
   std::chrono::duration <double> total_time = end - start;
   cout << endl << " Total computing time: " << (int) total_time.count() << " s." << endl;

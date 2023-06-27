@@ -140,7 +140,7 @@ real_ driver::NablaRI( const basisSTO <real_> & basis, const std_mtx & C ) {
 
   real_ p2, a, b, c, d;
   a = -real_(3) * ( PZ_mo.leftCols( settings::n_closed ).cwiseAbs2().sum()
-    - settings::rohf_coupling_f * PZ_mo.middleCols( settings::n_closed, settings::n_open ).cwiseAbs2().sum() );
+    + settings::rohf_coupling_f * PZ_mo.middleCols( settings::n_closed, settings::n_open ).cwiseAbs2().sum() );
   b = PZ_mo.topLeftCorner( settings::n_closed, settings::n_closed ).cwiseAbs2().sum();
   c = real_(2) * settings::rohf_coupling_f * PZ_mo.block( 0, settings::n_closed, settings::n_closed, settings::n_open ).cwiseAbs2().sum();
   d = settings::rohf_coupling_f * settings::rohf_coupling_f * settings::rohf_coupling_b

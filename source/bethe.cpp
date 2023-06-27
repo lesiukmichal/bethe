@@ -426,13 +426,16 @@ void driver::BetheDriver() {
    *   ---=== Set up extra functions for the response calculations ===---
    */
 
+  vector <real_> scaling_factor;
   settings::n_extra_shl_opt = 0;
+
   for(int l=0; l<settings::global_lmax; l++) {
     settings::n_extra_shl_opt += occupied_momentum[l];
     for(int i=0; i<occupied_momentum[l]; i++) {
       settings::extra_cphf_n.insert( settings::extra_cphf_n.begin(), l + 1 );
       settings::extra_cphf_l.insert( settings::extra_cphf_l.begin(), l + 1 );
       settings::extra_cphf_a.insert( settings::extra_cphf_a.begin(), one );
+      scaling_factor.insert( scaling_factor.begin(), one / pow( real_(2), i ) );
     };
   };
 
@@ -461,8 +464,8 @@ void driver::BetheDriver() {
     settings::response_k = k_small[n];
 
     cout << endl << " Response calculations for momentum = " << settings::response_k << endl;
-    for(int i=0; i<settings::n_extra_shl_opt; i++) settings::extra_cphf_a[i] = 20 * ( i + 1 );
-      ///settings::extra_cphf_a[i] = sqrt( settings::response_k + settings::response_k );
+    for(int i=0; i<settings::n_extra_shl_opt; i++)
+      settings::extra_cphf_a[i] = sqrt( settings::response_k + settings::response_k ) * scaling_factor[i];
 
     powell::OptimizeCPHF();
     real_ current_f = -cphf::EngineCPHF( true );
@@ -493,7 +496,7 @@ void driver::BetheDriver() {
 
     cout << endl << " Response calculations for momentum = " << settings::response_k << endl;
     for(int i=0; i<settings::n_extra_shl_opt; i++)
-      settings::extra_cphf_a[i] = sqrt( settings::response_k + settings::response_k );
+      settings::extra_cphf_a[i] = sqrt( settings::response_k + settings::response_k ) * scaling_factor[i];
 
     powell::OptimizeCPHF();
     real_ current_f = -cphf::EngineCPHF( true );

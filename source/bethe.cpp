@@ -475,7 +475,6 @@ void driver::BetheDriver() {
     f_small.push_back( current_f );
 
     cout << "  Total  : " << setw( settings::print_length + 10 ) << current_f << endl;
-    return ;
   };
 
   cout << endl << " Summary of the calculations:" << endl;

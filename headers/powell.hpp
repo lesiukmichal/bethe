@@ -21,9 +21,9 @@ namespace powell {
       if( x0[k] < real_(0) ) return real_(0);
       params[k] = x0[k];
     };
-    
+
     if( settings::job_mode == 0 ) return scf::EngineSCF();
-    if( settings::job_mode == 1 ) return cphf::EngineCPHF();
+    if( settings::job_mode == 1 || settings::job_mode == 2 ) return cphf::EngineCPHF();
     return real_(0);
   };
 

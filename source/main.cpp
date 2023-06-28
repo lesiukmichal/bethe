@@ -244,7 +244,7 @@ int main(int argc, char* argv[]) {
 
     if( ini["bethe"].has( "k_single_shot" ) )
       settings::k_single_shot = real_( ini["bethe"]["k_single_shot"] );
-        else settings::k_single_shot = real_(0.0);
+        else settings::k_single_shot = real_(0);
 
     driver::BetheDriver();
   };

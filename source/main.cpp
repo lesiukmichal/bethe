@@ -217,7 +217,7 @@ int main(int argc, char* argv[]) {
    *   ---=== Calculate the Bethe logarithm ===---
    */
 
-  if( settings::job_mode == 1 ) {
+  if( settings::job_mode == 1 || settings::job_mode == 2 ) {
     if( ini["cphf"].has( "maxit" ) )
       settings::cphf_maxit = stoi( ini["cphf"]["maxit"] );
         else settings::cphf_maxit = 100;
@@ -241,6 +241,10 @@ int main(int argc, char* argv[]) {
     if( ini["bethe"].has( "grid_step_small" ) )
       settings::grid_step_small = real_( ini["bethe"]["grid_step_small"] );
         else settings::grid_step_small = real_(0.001);
+
+    if( ini["bethe"].has( "k_single_shot" ) )
+      settings::k_single_shot = real_( ini["bethe"]["k_single_shot"] );
+        else settings::k_single_shot = real_(0.0);
 
     driver::BetheDriver();
   };

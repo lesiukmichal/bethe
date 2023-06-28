@@ -442,6 +442,28 @@ void driver::BetheDriver() {
   cout << "  Number of extra shells for optimization = " << n_extra_shl << endl;
 
   /*
+   *   ---=== Single-shot calculations ===---
+   */
+
+  if( settings::job_mode == 2 ) {
+    settings::response_k = settings::k_single_shot;
+    real_ t_single_shot = real_(1) / sqrt( real_(2) * settings::k_single_shot + real_(1) );
+
+    cout << endl << " Response calculations for momentum = " << settings::response_k << endl << endl;
+    for(int i=0; i<settings::n_extra_shl_opt; i++)
+      settings::extra_cphf_a[i] = sqrt( settings::response_k + settings::response_k ) * scaling_factor[i];
+
+    powell::OptimizeCPHF();
+    real_ current_f = -cphf::EngineCPHF( true );
+    current_f *= real_(3) * settings::response_k;
+    current_f += p2 - real_(2) * den_total * t_single_shot * t_single_shot;
+    current_f  = current_f / t_single_shot / t_single_shot / t_single_shot;
+
+    cout << "  Total integrand: " << setw( settings::print_length + 10 ) << current_f << endl;
+    return ;
+  };
+
+  /*
    *   ---=== Response calculations for small t (fitting) ===---
    */
 
@@ -450,7 +472,7 @@ void driver::BetheDriver() {
   vector <real_> f_small;
 
   cout << endl;
-  cout << " Calculation of auxiliary quantities:" << endl;
+  cout << " Small-t grid settings:" << endl;
   cout << "  Small-t grid starting point = " << setw( settings::print_length + 10 ) << settings::grid_start_small << endl;
   cout << "  Small-t grid point spacing  = " << setw( settings::print_length + 10 ) << settings::grid_step_small << endl;
   cout << "  Number of small-t points    = " << setw( settings::print_length + 10 ) << settings::n_points_bethe_small << endl;

@@ -78,6 +78,8 @@ namespace settings {
   extern int n_points_bethe_small;
   extern real_ grid_start_small;
   extern real_ grid_step_small;
+
+  extern real_ k_single_shot;
 };
 
 #include "../headers/ints.hpp"

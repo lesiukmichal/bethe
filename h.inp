@@ -3,7 +3,7 @@
 ;------------------------;
 
 [job]
-mode = 1
+mode = 2
 
 [parallel]
 eigen = 1
@@ -49,4 +49,5 @@ conv = 1.0e-18
 grid_start_small = 0.001
 grid_step_small = 0.001
 n_points_bethe_small = 30
-n_grid = 25
+n_grid = 50
+k_single_shot = 200

@@ -53,6 +53,8 @@ int settings::n_points_bethe_small;
 real_ settings::grid_start_small;
 real_ settings::grid_step_small;
 
+real_ settings::k_single_shot;
+
 real_ coupling::binomial_table[coupling::n_binomial_max][coupling::n_binomial_max];
 
 boost::multi_array<real_, 5> coupling::wigner3j(

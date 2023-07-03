@@ -453,7 +453,7 @@ void driver::BetheDriver() {
     for(int i=0; i<settings::n_extra_shl_opt; i++)
       settings::extra_cphf_a[i] = sqrt( settings::response_k + settings::response_k ) * scaling_factor[i];
 
-    powell::OptimizeCPHF();
+    ///powell::OptimizeCPHF();
     real_ current_f = -cphf::EngineCPHF( true );
     current_f *= real_(3) * settings::response_k;
     current_f += p2 - real_(2) * den_total * t_single_shot * t_single_shot;
@@ -500,7 +500,7 @@ void driver::BetheDriver() {
   };
 
   cout << endl << " Summary of the calculations:" << endl;
-  for(uint n=0; n<grid_k.size(); n++) {
+  for(uint n=0; n<k_small.size(); n++) {
     cout << setw(5) << n;
     cout << setw( settings::print_length + 10 ) << t_small[n];
     cout << setw( settings::print_length + 10 ) << k_small[n];

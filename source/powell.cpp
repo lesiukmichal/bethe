@@ -186,7 +186,7 @@ void powell::LineSearch( std_vec & x0, const std_vec dir, const int & nvar ) {
     if( fc < fd ) { b = d; } else { a = c; };
     c  = b - ( b - a ) / gr;
     d  = a + ( b - a ) / gr;
-    if( abs( fc - fd ) < stop_gold ) break ;
+    if( real_(2) * abs( fc - fd ) / abs( fc + fd ) < stop_gold ) break ;
   };
 
   stp = ( a + b ) / real_(2);

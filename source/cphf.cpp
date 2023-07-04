@@ -424,7 +424,11 @@ real_ cphf::EngineCPHF( const bool & print ) {
    *   ---=== Evaluate the propagator ===---
    */
 
-  prop = -real_(2) * X1.dot(B);
+  prop = real_(2) * UO_ix.cwiseProduct( B_ix ).sum()
+       - real_(2) * UC_ai.cwiseProduct( B_ai ).sum()
+       - real_(2) * UO_ax.cwiseProduct( B_ax ).sum();
+
+  /* prop = -real_(2) * X1.dot(B); */
   if( print ) cout << "  <<A;B>>: " << setw( settings::print_length + 10 ) << prop << endl;
 
   UO_ix_final = UO_ix;

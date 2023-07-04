@@ -58,7 +58,7 @@ void powell::OptimizeBasis() {
       cout << endl;
     };
 
-    if( abs( e_now - energy_history.back() ) < stop_powell ) {
+    if( real_(2) * abs( e_now - energy_history.back() ) / abs( e_now + energy_history.back() ) < stop_powell ) {
       energy_history.push_back( e_now ); break ;
     }; energy_history.push_back( e_now );
   };
@@ -94,7 +94,7 @@ real_ powell::PowellSingleShell() {
   for(int n_powell=0; n_powell<mx_powell; n_powell++) {
     pk.col(0).head(nvar) = xi.transpose();
     e_new = powell::Energy( xi );
-    if( abs( e_old - e_new ) < stop_powell ) break ;
+    if( real_(2) * abs( e_old - e_new ) / abs( e_old + e_new ) < stop_powell ) break ;
     e_old = e_new;
 
     for(int n_dir=0; n_dir<nvar; n_dir++) {

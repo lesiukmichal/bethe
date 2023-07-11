@@ -29,6 +29,7 @@ namespace powell {
 
   real_ PowellSingleShell();
   void LineSearch( std_vec & x0, const std_vec dir, const int & nvar );
+  void LineSearchGolden( std_vec & x0, const std_vec dir, const int & nvar );
   void OptimizeBasis();
   void OptimizeCPHF();
 };

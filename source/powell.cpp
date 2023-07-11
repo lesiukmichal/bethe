@@ -147,32 +147,116 @@ real_ powell::PowellSingleShell() {
 
 void powell::LineSearch( std_vec & x0, const std_vec dir, const int & nvar ) {
   real_ old_tar, tar, gr, stp;
-  real_ a, b, c, d, fc, fd;
+  real_ e_left, e_right, de;
+  real_ a, b, c, fa, fb, fc;
+  int i;
 
   stp = real_("1.0e-04");
-  old_tar = powell::Energy( x0 );
+  x0 += stp * dir;
+  e_right = powell::Energy( x0 );
+  x0 -= real_(2) * stp * dir;
+  e_left  = powell::Energy( x0 );
+  x0 += stp * dir;
+  de  = ( e_right - e_left ) / ( real_(2) * stp );
+
   cout << "   Stage 1: Bracketing." << endl;
+  if( de < real_(0) ) {
+    stp = real_("1.0e-04");
+    old_tar = powell::Energy( x0 );
 
-  for( int i=1; i<=mx_search; i++ ) {
-    x0 += stp * dir; tar = powell::Energy( x0 ); x0 -= stp * dir;
-    cout << "  " << setw(4) << i << setw( settings::print_length + 10 ) << stp << setw( settings::print_length + 10 ) << tar << endl;
-    if( old_tar <= tar ) break;
-    old_tar = tar; stp = real_(2) * stp;
+    for( i=1; i<=mx_search; i++ ) {
+      x0 += stp * dir; tar = powell::Energy( x0 ); x0 -= stp * dir;
+      cout << "  " << setw(4) << i << setw( settings::print_length + 10 ) << stp << setw( settings::print_length + 10 ) << tar << endl;
+      if( old_tar <= tar ) break;
+      old_tar = tar; stp = real_(2) * stp;
+    };
+
+    c = stp;
+    b = c / real_(2);
+    a = b / real_(2);
+  } else {
+    stp = real_("-1.0e-04");
+    old_tar = powell::Energy( x0 );
+
+    for( i=1; i<=mx_search; i++ ) {
+      x0 += stp * dir; tar = powell::Energy( x0 ); x0 -= stp * dir;
+      cout << "  " << setw(4) << i << setw( settings::print_length + 10 ) << stp << setw( settings::print_length + 10 ) << tar << endl;
+      if( old_tar <= tar ) break;
+      old_tar = tar; stp = real_(2) * stp;
+    };
+
+    a = stp;
+    b = a / real_(2);
+    c = b / real_(2);
   };
 
-  b   = stp;
-  stp = real_("-1.0e-04");
-  old_tar = powell::Energy( x0 );
-
-  for( int i=1; i<=mx_search; i++ ) {
-    x0 += stp * dir; tar = powell::Energy( x0 ); x0 -= stp * dir;
-    cout << "  " << setw(4) << i << setw( settings::print_length + 10 ) << stp << setw( settings::print_length + 10 ) << tar << endl;
-    if( old_tar <= tar ) break;
-    old_tar = tar; stp = real_(2) * stp;
+  if( i == 1 ) {
+    cout << "   Negligible forces - accepting the current point." << endl;
+    return ;
   };
 
-  a  = stp;
+  cout << "   Stage 2: Polynomial approximation." << endl;
+  x0 += a * dir; fa = powell::Energy( x0 ); x0 -= a * dir;
+  x0 += b * dir; fb = powell::Energy( x0 ); x0 -= b * dir;
+  x0 += c * dir; fc = powell::Energy( x0 ); x0 -= c * dir;
+
+  cout << "    Points: " << endl;
+  cout << setw( settings::print_length + 10 ) << a << setw( settings::print_length + 10 ) << fa << endl;
+  cout << setw( settings::print_length + 10 ) << b << setw( settings::print_length + 10 ) << fb << endl;
+  cout << setw( settings::print_length + 10 ) << c << setw( settings::print_length + 10 ) << fc << endl;
+  
+  stp  = a * a * ( fb - fc ) + b * b * ( fc - fa ) + c * c * ( fa - fb );
+  stp /= a * ( fb - fc ) + b * ( fc - fa ) + c * ( fa - fb ); stp /= real_(2);
+
+  cout << "   Minimum found = " << setw( settings::print_length + 10 ) << stp << endl;
+  x0 += stp * dir;
+};
+
+void powell::LineSearchGolden( std_vec & x0, const std_vec dir, const int & nvar ) {
+  real_ old_tar, tar, gr, stp;
+  real_ e_left, e_right, de;
+  real_ a, b, c, d, fc, fd;
+  int i;
+
+  stp = real_("1.0e-04");
+  x0 += stp * dir;
+  e_right = powell::Energy( x0 );
+  x0 -= real_(2) * stp * dir;
+  e_left  = powell::Energy( x0 );
+  x0 += stp * dir;
+  de  = ( e_right - e_left ) / ( real_(2) * stp );
+
+  cout << "   Stage 1: Bracketing." << endl;
+  if( de < real_(0) ) {
+    stp = real_("1.0e-04");
+    old_tar = powell::Energy( x0 );
+
+    for( i=1; i<=mx_search; i++ ) {
+      x0 += stp * dir; tar = powell::Energy( x0 ); x0 -= stp * dir;
+      cout << "  " << setw(4) << i << setw( settings::print_length + 10 ) << stp << setw( settings::print_length + 10 ) << tar << endl;
+      if( old_tar <= tar ) break;
+      old_tar = tar; stp = real_(2) * stp;
+    };
+
+    b = stp;
+    a = b / real_(4);
+  } else {
+    stp = real_("-1.0e-04");
+    old_tar = powell::Energy( x0 );
+
+    for( i=1; i<=mx_search; i++ ) {
+      x0 += stp * dir; tar = powell::Energy( x0 ); x0 -= stp * dir;
+      cout << "  " << setw(4) << i << setw( settings::print_length + 10 ) << stp << setw( settings::print_length + 10 ) << tar << endl;
+      if( old_tar <= tar ) break;
+      old_tar = tar; stp = real_(2) * stp;
+    };
+
+    a = stp;
+    b = a / real_(4);
+  };
+
   gr = ( real_(1) + sqrt( real_(5) ) ) / real_(2);
+  cout << gr << endl;
   c  = b - ( b - a ) / gr;
   d  = a + ( b - a ) / gr;
 

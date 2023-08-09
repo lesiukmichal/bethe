@@ -84,6 +84,10 @@ namespace settings {
 
 #include "../headers/ints.hpp"
 
+/** @brief This class represents a single Slater-type orbital
+ *         with a fixed quantum numbers "n" and "l", and the
+ *         exponent "a".
+ */
 template <typename T>
 class orbitalSTO {
   public:
@@ -102,12 +106,16 @@ class orbitalSTO {
       shell_size = l + l + 1;
     };
 
+/** @brief Computes the normalization constant of the orbital.
+ */
     inline void setNorm() {
       int n21 = n + n + 1;
       norm = pow( T(2) * a, T(n21) / T(2) );
       norm = norm / sqrt( tgamma( T(n21) ) );
     };
 
+/** @brief Returns the normalization constant of the orbital.
+ */
     inline T getNorm() const {
       return norm;
     };
@@ -116,6 +124,8 @@ class orbitalSTO {
     T norm;
 };
 
+/** @brief This class represents the whole basis set of STOs.
+ */
 template <typename T>
 class basisSTO {
   public:
@@ -133,6 +143,15 @@ class basisSTO {
       initializeTempering( A, n_prim, n_principal );
     };
 
+/** @brief Initialize the basis set.
+ *  @param[in] A: a matrix of tempering parameters
+ *  @param[in] n_prim: number of primitives for a given angular momentum (a vector)
+ *  @param[in] n_principal: principal quantum numbers for a given angular momentum (a vector)
+ *
+ *   The tempering scheme is based on the paper:\n
+ *   G. A. Peterson et al., J. Chem. Phys. 118, 1101–1109 (2003).
+ *
+ */
     void initializeTempering( const std::vector <std::vector <T>> & A,
                               const std::vector <int> & n_prim,
                               const std::vector <int> & n_principal ) {
@@ -150,6 +169,9 @@ class basisSTO {
       };
     };
 
+/** @brief Print details of the basis set.
+ *  @param[in] name: a name of the basis set (can be dummy)
+ */
     void printDetails( const std::string & name ) {
       std::cout << " " << name << " basis set data:" << std::endl;
       for(int n=0; n<n_shl; n++) {
@@ -159,6 +181,8 @@ class basisSTO {
     };
 };
 
+/** @brief Initialize the code - calculate mathematical constants, etc.
+ */
 void Initialize();
 
 #endif

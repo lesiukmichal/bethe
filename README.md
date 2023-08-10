@@ -16,6 +16,17 @@ To install the program, you require:
 - Boost library, https://www.boost.org/;
 - Eigen library, https://eigen.tuxfamily.org/index.php?title=Main_Page;
 
-The latter two libraries are available in repositories of most Linux-based systems. Moreover, they are header-only libraries, so alternatively you can just download them and include their directory in the Makefile (via -I/path_to_library/ option). Besides,
-the program uses the mINI library (https://github.com/pulzed/mINI/tree/master) which is included along the source code.
-The program is compiled using the "make" command; you need to create "object" directory manually before compiling.
+The latter two libraries are available in repositories of most Linux-based systems. Moreover, they are header-only libraries, so alternatively you can just download them and include their directory in the Makefile (via `-I/path_to_library/ option`). Besides, the program uses the mINI library (https://github.com/pulzed/mINI/tree/master) which is included along the source code. The program is compiled using the `make` command; you need to create `object` directory manually before compiling.
+
+### Usage
+
+Examples of the input files are available in the `sample-inputs` directory. The inputs have the standard structure of an `INI` file:
+
+```
+[section1]
+key1 = value1
+key2 = value2
+
+[section2]
+key3 = value3
+```

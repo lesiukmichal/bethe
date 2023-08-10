@@ -17,12 +17,20 @@ namespace coupling {
 
   extern boost::multi_array<real_, 5> wigner3j;
 
+/** @brief Binomial coefficients from a look-up table.
+ *  @param[in] n: upper index
+ *  @param[in] k: lower index
+ */
   template <typename T>
   inline T binomial( const int & n, const int & k ) {
     assert( n < n_binomial_max && k < n_binomial_max );
     return T( binomial_table[n][k] );
   };
 
+/** @brief Binomial coefficients - recursive calculation.
+ *  @param[in] n: upper index
+ *  @param[in] k: lower index
+ */
   template <typename T>
   T binomial_recursive( const int & n, const int & k ) {
     if( n < k ) return binomial_recursive <T> (k,n);
@@ -30,13 +38,34 @@ namespace coupling {
     return binomial_recursive <T> ( n - 1, k - 1 ) * T(n) / T(k);
   };
 
+/** @brief Checking if the integer is odd.
+ *  @param[in] val: the input integer
+ */
   inline bool is_odd ( int val ) { return ((val) & 1); };
+
+/** @brief Checking if the integer is even.
+ *  @param[in] val: the input integer
+ */
   inline bool is_even( int val ) { return (!(is_odd(val))); };
 
+/** @brief Checking if a triplet of integers satisfies the
+ *         triangle inequality condition.
+ *  @param[in] two_ja: first integer
+ *  @param[in] two_jb: second integer
+ *  @param[in] two_jc: third integer
+ */
   inline bool triangle_selection_fails( int two_ja, int two_jb, int two_jc ) {
     return ( ( two_jb < abs( two_ja - two_jc ) ) || ( two_jb > two_ja + two_jc ) );
   };
 
+/** @brief Checking if the Clebsch–Gordan coefficient is non-zero.
+ *  @param[in] two_ja: first upper index
+ *  @param[in] two_jb: second upper index
+ *  @param[in] two_jc: third upper index
+ *  @param[in] two_ma: first lower index
+ *  @param[in] two_mb: second lower index
+ *  @param[in] two_mc: third lower index
+ */
   inline bool m_selection_fails( int two_ja, int two_jb, int two_jc,
                           int two_ma, int two_mb, int two_mc ) {
     return ( abs(two_ma) > two_ja    || abs(two_mb) > two_jb
@@ -45,6 +74,14 @@ namespace coupling {
           || (two_ma + two_mb + two_mc) != 0 );
   };
 
+/** @brief Calculation of the Clebsch–Gordan coefficients using explicit formulas.
+ *  @param[in] two_ja: first upper index
+ *  @param[in] two_jb: second upper index
+ *  @param[in] two_jc: third upper index
+ *  @param[in] two_ma: first lower index
+ *  @param[in] two_mb: second lower index
+ *  @param[in] two_mc: third lower index
+ */
   template <typename T>
   T Coupling_3J( int two_ja, int two_jb, int two_jc,
                  int two_ma, int two_mb, int two_mc ) {
@@ -93,13 +130,17 @@ namespace coupling {
     return sum_pos - sum_neg;
   };
 
+/** @brief Calculation of the Wigner 3J symbols using explicit formulas.
+ *  @param[in] two_ja: first upper index
+ *  @param[in] two_jb: second upper index
+ *  @param[in] two_jc: third upper index
+ *  @param[in] two_ma: first lower index
+ *  @param[in] two_mb: second lower index
+ *  @param[in] two_mc: third lower index
+ */
   template <typename T>
   T Wigner_3J_explicit( int ja, int jb, int jc,
                         int ma, int mb, int mc ) {
-    //    Wigner 3J symbol
-    //         | ja jb jc |
-    //         | ma mb mc |
-
     int two_ja, two_jb, two_jc;
     int two_ma, two_mb, two_mc;
     two_ja = 2 * ja;
@@ -113,6 +154,14 @@ namespace coupling {
                              two_ma, two_mb, two_mc );
   };
 
+/** @brief Calculation of the Wigner 3J symbols using look-up tables.
+ *  @param[in] two_ja: first upper index
+ *  @param[in] two_jb: second upper index
+ *  @param[in] two_jc: third upper index
+ *  @param[in] two_ma: first lower index
+ *  @param[in] two_mb: second lower index
+ *  @param[in] two_mc: third lower index
+ */
   template <typename T>
   T Wigner_3J( int ja, int jb, int jc,
                int ma, int mb, int mc ) {
@@ -125,6 +174,8 @@ namespace coupling {
 };
 
 namespace ints {
+/** @brief A class storing the basic two-electron integrals.
+ */
   template <typename T>
   class Integrals {
   public:
@@ -153,6 +204,13 @@ namespace ints {
     };
   };
 
+/** @brief Given an overlap matrix, generates the transformation
+ *         matrix to the orthonormal basis using the Lowdin
+ *         symmetric orthogonalization.
+ *  @param[in] S: the overlap matrix
+ *  @param[in] overlap_threshold: threshold for dropping linearly dependent functions
+ *  @param[in] print: if true, print additional information
+ */
   template <typename T>
   inline Eigen::Matrix<T, Eigen::Dynamic, Eigen::Dynamic, Eigen::RowMajor>
     generateOrtho( const Eigen::Matrix<T, Eigen::Dynamic, Eigen::Dynamic, Eigen::RowMajor> & S,
@@ -176,6 +234,12 @@ namespace ints {
     return SE.eigenvectors().block( 0, i_sing, S.rows(), n_bas_eff ) * tmp_eig_s.asDiagonal();
   };
 
+/** @brief Calculates the Legendre polynomials with the order
+ *         \f$ n\in[0,nmax] \f$ using recursion relations
+ *  @param[in] nmax: the maximum polynomial order
+ *  @param[in] x: the real argument of the polynomial
+ *  @param[out] pn: output as std::vector <T>
+ */
   template <typename T>
   inline void LegendreP( const int & nmax, const T & x,
                          std::vector <T> & pn ) {
@@ -190,6 +254,15 @@ namespace ints {
     };
   };
 
+/** @brief Calculates the basic one-electron integrals between a pair
+ *         of STOs shells.
+ *  @param[in] s1: bra shell class
+ *  @param[in] s2: ket shell class
+ *  @param[out] S_12: overlap integrals
+ *  @param[out] T_12: overlap integrals
+ *  @param[out] V_12: overlap integrals
+ *  @param[in] Z: the nuclear charge
+ */
   template <typename T>
   inline void IntegralsSTV( const orbitalSTO <T> & s1,
                             const orbitalSTO <T> & s2,
@@ -227,6 +300,15 @@ namespace ints {
     T_12.diagonal().setConstant( radial_t );
   };
 
+/** @brief Calculates the basic one-electron integrals for
+ *         the whole atomic basis supplied at the input.
+ *  @param[in] basis_1: bra basis class
+ *  @param[in] basis_2: ket basis class
+ *  @param[out] SM: overlap integrals matrix
+ *  @param[out] TM: overlap integrals matrix
+ *  @param[out] VM: overlap integrals matrix
+ *  @param[in] Z: the nuclear charge
+ */
   template <typename T>
   inline void EngineSTV( const basisSTO <T> & basis_1, const basisSTO <T> & basis_2,
                          Eigen::Matrix<T, Eigen::Dynamic, Eigen::Dynamic, Eigen::RowMajor> & SM,
@@ -261,6 +343,12 @@ namespace ints {
     };
   };
 
+/** @brief Auxiliary integrals \f$ \int_0^\infty dr\;r^n\,e^{-ar} \f$
+ *         for \f$ n\in[0,nmax] \f$ calculated using recursion relation.
+ *  @param[in] a: the value of the exponent
+ *  @param[in] n_max: the maximum power in the integrand
+ *  @param[out] rn: output as std::vector <T>
+ */
   template <typename T>
   inline void Rn( const T & a,
                   const int & n_max,
@@ -269,6 +357,14 @@ namespace ints {
     for(int n=1; n<=n_max; n++) rn[n] = rn[n-1] * T(n) / a;
   };
 
+/** @brief Auxiliary radial integrals needed for calculation of the
+ *         atomic two-electron Coulomb integrals.
+ *  @param[in] m_max: the maximum power of \f$ r_1 \f$ in the integrand
+ *  @param[in] n_max: the maximum power of \f$ r_2 \f$ in the integrand
+ *  @param[in] a: the value of the exponent of the first electron
+ *  @param[in] b: the value of the exponent of the second electron
+ *  @param[out] kmn: output as std::vector <std::vector<T>>
+ */
   template <typename T>
   void Kmn( const int & m_max, const int & n_max,
             const T & a, const T & b,
@@ -283,6 +379,14 @@ namespace ints {
     };
   };
 
+/** @brief Auxiliary radial integrals needed for calculation of the
+ *         atomic two-electron Coulomb integrals - a special case
+ *         required by the 1p orbitals.
+ *  @param[in] m_max: the maximum power of \f$ r_1 \f$ in the integrand
+ *  @param[in] a: the value of the exponent of the first electron
+ *  @param[in] b: the value of the exponent of the second electron
+ *  @param[out] km: output as std::vector<T>
+ */
   template <typename T>
   void KmSpecial( const int & m_max, const T & a, const T & b,
                   std::vector <T> & km ) {
@@ -294,6 +398,14 @@ namespace ints {
     for(int m=1; m<=m_max; m++) km[m] = ( T(m) * km[m-1] - ln[m-1] ) / a;
   };
 
+/** @brief Calculates the basic two-electron Coulomb integrals between
+ *         a quartet of STOs shells, (11|22) notation.
+ *  @param[in] s1: bra first shell class
+ *  @param[in] s2: bra second shell class
+ *  @param[in] s3: ket first shell class
+ *  @param[in] s4: ket second shell class
+ *  @param[out] shell: packed integrals as std::vector <T>
+ */
   template <typename T>
   void IntegralsERI( const orbitalSTO <T> & s1,
                      const orbitalSTO <T> & s2,
@@ -391,6 +503,15 @@ namespace ints {
     };
   };
 
+/** @brief Calculates the two-electron part of the "skeleton" Coulomb
+ *         and exchange matrices using the supplied density matrix
+ *         and two-electron integrals.
+ *  @param[in] basis: basis set class
+ *  @param[in] ERI: integrals class
+ *  @param[in] D: density matrix
+ *  @param[out] J: Coulomb matrix
+ *  @param[out] K: exchange matrix
+ */
   template <typename T>
   void FockFromList( const basisSTO <T> & basis, const Integrals <T> & ERI,
                      const Eigen::Matrix<T, Eigen::Dynamic, Eigen::Dynamic, Eigen::RowMajor> & D,
@@ -432,6 +553,12 @@ namespace ints {
     };
   };
 
+/** @brief Calculates the list of two-electron integrals from
+ *         a given basis set.
+ *  @param[in] basis: basis set class
+ *  @param[out] ERI: integrals class
+ *  @param[in] thresh_integrals: cutoff for dropping small integrals
+ */
  template <typename T>
   void EngineListERI( const basisSTO <T> & basis,
                       Integrals <T> & ERI,
@@ -502,6 +629,12 @@ namespace ints {
     };
   };
 
+/** @brief Calculates the dipole moment integrals between a pair
+ *         of STOs shells.
+ *  @param[in] s1: bra shell class
+ *  @param[in] s2: ket shell class
+ *  @param[out] DZ_shl: overlap integrals
+ */
   template <typename T>
   inline void IntegralsDipoleZ( const orbitalSTO <T> & s1,
                                 const orbitalSTO <T> & s2,
@@ -518,6 +651,12 @@ namespace ints {
                                      * coupling::Wigner_3J <T> ( s1.l, 1, s2.l, -m1, 0, +m1 );
   };
 
+/** @brief Calculates the dipole velocity integrals between a pair
+ *         of STOs shells.
+ *  @param[in] s1: bra shell class
+ *  @param[in] s2: ket shell class
+ *  @param[out] PZ_shl: overlap integrals
+ */
   template <typename T>
   inline void IntegralsVelocityZ( const orbitalSTO <T> & s1,
                                   const orbitalSTO <T> & s2,
@@ -546,6 +685,12 @@ namespace ints {
     };
   };
 
+/** @brief Calculates the one-electron Darwin integrals between a pair
+ *         of STOs shells.
+ *  @param[in] s1: bra shell class
+ *  @param[in] s2: ket shell class
+ *  @param[out] D1_shl: overlap integrals
+ */
   template <typename T>
   inline void IntegralsDarwin1( const orbitalSTO <T> & s1,
                                 const orbitalSTO <T> & s2,
@@ -558,6 +703,11 @@ namespace ints {
     D1_shl( s1.l, s2.l ) /= ( T(4) * boost::math::constants::pi<T>() );
   };
 
+/** @brief Calculates the overlap integrals between a pair of STOs shells.
+ *  @param[in] s1: bra shell class
+ *  @param[in] s2: ket shell class
+ *  @param[out] S_shl: overlap integrals
+ */
   template <typename T>
   inline void IntegralsOverlap( const orbitalSTO <T> & s1,
                                 const orbitalSTO <T> & s2,
@@ -569,6 +719,12 @@ namespace ints {
     S_shl.diagonal().setConstant( radial_s );
   };
 
+/** @brief Calculates the angular momentum operator integrals between
+ *         a pair of STOs shells.
+ *  @param[in] s1: bra shell class
+ *  @param[in] s2: ket shell class
+ *  @param[out] L2_shl: overlap integrals
+ */
   template <typename T>
   inline void IntegralsAngular( const orbitalSTO <T> & s1,
                                 const orbitalSTO <T> & s2,
@@ -579,7 +735,13 @@ namespace ints {
     radial_s *= tgamma( T( s1.n + s2.n + 1 ) ) / pow( s1.a + s2.a, s1.n + s2.n + 1 );
     L2_shl.diagonal().setConstant( radial_s );
   };
-  
+
+/** @brief Calculates the quadruple moment integrals (trace) between
+ *         a pair of STOs shells.
+ *  @param[in] s1: bra shell class
+ *  @param[in] s2: ket shell class
+ *  @param[out] R_shl: overlap integrals
+ */
   template <typename T>
   inline void IntegralsMeanR( const orbitalSTO <T> & s1,
                               const orbitalSTO <T> & s2,
@@ -593,6 +755,13 @@ namespace ints {
 
   enum class IntegralType { Overlap = 0, Dipole = 1, Velocity = 2, Darwin1 = 3, Angular = 4, MeanR = 5 };
 
+/** @brief A wrapper for calculation of various one-electron integrals
+ *         in the STOs basis.
+ *  @param[in] basis_1: bra basis class
+ *  @param[in] basis_2: ket basis class
+ *  @param[out] I: integrals matrix
+ *  @param[in] label: the integrals label (see the enum above)
+ */
   template <typename T>
   inline void EngineUnified( const basisSTO <T> & basis_1, const basisSTO <T> & basis_2,
                              Eigen::Matrix<T, Eigen::Dynamic, Eigen::Dynamic, Eigen::RowMajor> & I,

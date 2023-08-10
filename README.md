@@ -4,6 +4,7 @@
 
 This code is a companion to the paper:
 - (will be filled later)
+
 Please cite this work if you publish results produced with help of this code.
 
 Some additional key literature references:
@@ -97,6 +98,9 @@ Both `html` and `latex` versions of the documentation will be generated in `doc`
 ### Contact
 
 Author contact information:
+
 Michał Lesiuk, e-mail: m.lesiuk@uw.edu.pl
+
 Faculty of Chemistry, University of Warsaw, Poland
+
 http://aesmgroup.chem.uw.edu.pl/index.html

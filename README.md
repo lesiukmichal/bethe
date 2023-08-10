@@ -21,7 +21,7 @@ To install the program, you require:
 
 The latter two libraries are available in repositories of most Linux-based systems. Moreover, they are header-only libraries, so alternatively you can just download them and include their directory in the Makefile (via `-I/path_to_library/ option`). Besides, the program uses the mINI library (https://github.com/pulzed/mINI/tree/master) which is included along the source code. The program is compiled using the `make` command; you need to create `object` directory manually before compiling.
 
-### Usage
+### Input and usage
 
 Examples of the input files are available in the `sample-inputs` directory. The inputs have the standard structure of an `INI` file:
 
@@ -77,3 +77,8 @@ Section `[bethe]`:
 - `grid_start_small`: the first point of the fitting grid;
 - `grid_step_small`: the step size of the fitting grid;
 - `k_single_shot`: the photon momentum in the response calculations (in `mode=2`);
+
+Most of the keywords have reasonable default values and do not have to be provided manually in every calculation. To run the code, execute the command:
+```
+./xbethe [name_of_the_input_file]
+```

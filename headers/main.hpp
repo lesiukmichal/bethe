@@ -1,3 +1,7 @@
+/** @file main.hpp
+ *  @brief Main header file
+ *  @author Michal Lesiuk
+ */
 #ifndef MAIN_H
 #define MAIN_H
 

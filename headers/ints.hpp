@@ -1,3 +1,7 @@
+/** @file ints.hpp
+ *  @brief Various one- and two-electron integrals.
+ *  @author Michal Lesiuk
+ */
 #ifndef INTS_H
 #define INTS_H
 

@@ -1,3 +1,7 @@
+/** @file scf.hpp
+ *  @brief Solution of the Hartree-Fock equations.
+ *  @author Michal Lesiuk
+ */
 #ifndef SCF_H
 #define SCF_H
 

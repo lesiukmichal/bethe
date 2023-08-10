@@ -1,3 +1,7 @@
+/** @file bethe.hpp
+ *  @brief Bethe logarithm implementation.
+ *  @author Michal Lesiuk
+ */
 #ifndef DENOM_H
 #define DENOM_H
 

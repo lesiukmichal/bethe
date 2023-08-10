@@ -1,3 +1,7 @@
+/** @file cphf.hpp
+ *  @brief Response equations solver.
+ *  @author Michal Lesiuk
+ */
 #ifndef CPHF_H
 #define CPHF_H
 

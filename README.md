@@ -4,6 +4,7 @@
 
 This code is a companion to the paper:
 - (will be filled later)
+Please cite this work if you publish results produced with help of this code.
 
 Some additional key literature references:
 - C. Schwartz, Phys. Rev. 123, 1700 (1961);
@@ -16,6 +17,7 @@ The program uses the open-shell Hartree-Fock theory:
 
 To install the program, you require:
 - a C++ compiler compliant with the C++17 standard (or newer);
+- (optional) Doxygen library to generate full documentation of the code;
 - Boost library, https://www.boost.org/;
 - Eigen library, https://eigen.tuxfamily.org/index.php?title=Main_Page;
 
@@ -82,3 +84,19 @@ Most of the keywords have reasonable default values and do not have to be provid
 ```
 ./xbethe [name_of_the_input_file]
 ```
+### Further information
+
+To generate the full documentation of the code you have to install the Doxygen library and run (in the main directory):
+```
+doxygen Doxyfile
+cd doc/latex
+pdflatex refman.tex
+```
+Both `html` and `latex` versions of the documentation will be generated in `doc` directory.
+
+### Contact
+
+Author contact information:
+Michał Lesiuk, e-mail: m.lesiuk@uw.edu.pl
+Faculty of Chemistry, University of Warsaw, Poland
+http://aesmgroup.chem.uw.edu.pl/index.html

@@ -1,3 +1,7 @@
+/** @file powell.hpp
+ *  @brief Powell's optimization algorithm.
+ *  @author Michal Lesiuk
+ */
 #ifndef POWELL_H
 #define POWELL_H
 

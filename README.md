@@ -38,19 +38,42 @@ Below, each section and the corresponding keywords relevant for the users are li
 
 Section `[job]`:
 - `mode`: 0 means basis set optimization, 1 means automatic calculation of the Bethe logarithm, 2 means calculation of the response function for a given value of `k`;
+
 Section `[orbital_basis]`:
 - `orbital_momentum`: number of functions of `s`, `p`, `d`, `...` symmetries (separated by spaces);
 - `basis_params_s`, `basis_params_p`, `basis_params_d`, and so forth: basis set tempering parameters (geometric progression);
+
 Section `[system]`:
 - `nuclear_charge`: charge of the atomic nucleus;
 - `n_electrons`: number of electrons in the atom;
 - `n_closed`: number of closed (doubly-occupied) orbitals;
 - `n_open`: number of open orbitals;
+
 Section `[thresh]`:
 - `linear_dependent`: cutoff for dropping linearly dependent functions from the basis;
 - `eri_threshold`: cutoff for dropping negligible integrals;
+
 Section `[scf]`:
 - `maxit`: maximum number of SCF iteractions;
 - `n_diis`: size of the DIIS subspace;
 - `n_diis_turn_on`: turn on DIIS after this number of iterations;
 - `rohf_coupling_f`, `rohf_coupling_a`, `rohf_coupling_b` - coupling parameters defining the atomic state;
+
+Section `[powell]`:
+- `mx_macro`: maximum number of macroiterations in the optimization;
+- `mx_powell`: maximum number of iterations of Powell's algorithm;
+- `mx_search`: maximum number of line search steps;
+- `mx_gold`: maximum number of iterations of the golden section search;
+- `stop_powell`: convergence threshold of Powell's algorithm;
+- `stop_gold`: convergence threshold of the golden section search;
+
+Section `[cphf]`:
+- `maxit`: maximum number of iterations in the solution of the response equations;
+- `conv`: convergence threshold for the solution of the response equations;
+
+Section `[bethe]`:
+- `n_grid`: number of grid points for numerical integration;
+- `n_points_bethe_small`: number of points for fitting in the small-t region;
+- `grid_start_small`: the first point of the fitting grid;
+- `grid_step_small`: the step size of the fitting grid;
+- `k_single_shot`: the photon momentum in the response calculations (in `mode=2`);

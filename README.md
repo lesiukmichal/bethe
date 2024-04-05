@@ -3,7 +3,7 @@
 ### Citations and references
 
 This code is a companion to the paper:
-- (will be filled later)
+- M. Lesiuk and J. Lang, Phys. Rev. A. 108, 042817 (2023).
 
 Please cite this work if you publish results produced with help of this code.
 
